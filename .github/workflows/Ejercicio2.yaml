@@ -1,0 +1,24 @@
+name: Manejo de Secretos Seguro
+
+on:
+  workflow_dispatch:
+
+jobs:
+  login-simulado:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simular Login con Credenciales
+        env:
+          # Traemos el secreto desde la configuración del repo
+          USER_PASSWORD: ${{ secrets.MI_PASSWORD_SECRETA }}
+          USER_NAME: "admin_user"
+        run: |
+          echo "Iniciando sesión para el usuario: $USER_NAME"
+          # Intentamos imprimir la contraseña (GitHub la enmascarará)
+          echo "La contraseña utilizada es: $USER_PASSWORD"
+          
+          if [ "$USER_PASSWORD" == "12345" ]; then
+            echo "Login exitoso ✅"
+          else
+            echo "Login fallido ❌ (O el secreto no está configurado)"
+          fi
