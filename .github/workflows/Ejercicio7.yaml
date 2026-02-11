@@ -1,0 +1,30 @@
+name: 07. Outputs entre Jobs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job_a:
+    name: Generador de Numero
+    runs-on: ubuntu-latest
+    # 1. Declaramos qué salidas tendrá este Job hacia el exterior
+    outputs:
+      numero_suerte: ${{ steps.generar.outputs.random_id }}
+    
+    steps:
+      - id: generar
+        run: |
+          VALOR=$(( $RANDOM % 100 + 1 ))
+          echo "Generando número: $VALOR"
+          # Guardamos el valor en el output del paso
+          echo "random_id=$VALOR" >> $GITHUB_OUTPUT
+
+  job_b:
+    name: Receptor de Numero
+    runs-on: ubuntu-latest
+    # 2. Especificamos que este job necesita al Job A
+    needs: job_a
+    steps:
+      - name: Usar el valor del Job A
+        run: |
+          echo "El número aleatorio que recibí del Job A es: ${{ needs.job_a.outputs.numero_suerte }}"

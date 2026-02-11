@@ -3,9 +3,9 @@ name: Solo Documentacion en Develop
 on:
   push:
     branches:
-      - develop    # Filtro de rama: Solo reacciona a 'develop'
+      - develop 
     paths:
-      - 'docs/**'  # Filtro de ruta: Solo si cambian archivos en docs/
+      - 'docs/**' 
 
 jobs:
   build-docs:

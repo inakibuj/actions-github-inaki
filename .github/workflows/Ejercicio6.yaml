@@ -1,0 +1,19 @@
+name: 06. JSON Validator
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Corregido 'ckeckout' y actualizado a v4
+
+      - name: Validar JSON
+        run: |
+          # Usamos python para validar el formato del archivo
+          # Esto fallará si el archivo data.json no existe o está mal formado
+          python3 -m json.tool data.json
+
