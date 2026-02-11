@@ -1,0 +1,33 @@
+name: Aprendiendo a usar Artefactos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job_generador:
+    name: "Generar archivo"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear archivo de texto
+        run: echo "Este mensaje viaja entre jobs gracias a los artifacts" > mensaje.txt
+
+      - name: Subir el archivo a GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: mi-archivo-compartido  # Nombre del paquete
+          path: mensaje.txt            # Ruta del archivo real
+
+  job_receptor:
+    name: "Descargar y Leer"
+    runs-on: ubuntu-latest
+    needs: job_generador  # Obligatorio para que el archivo exista antes
+    steps:
+      - name: Descargar el archivo
+        uses: actions/download-artifact@v4
+        with:
+          name: mi-archivo-compartido  # Debe ser el mismo nombre de arriba
+
+      - name: Mostrar contenido
+        run: |
+          echo "El contenido del archivo descargado es:"
+          cat mensaje.txt
