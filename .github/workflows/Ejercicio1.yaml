@@ -1,0 +1,25 @@
+name: Aprendiendo Variables Globales (ej_1)
+
+on:
+  workflow_dispatch:
+
+# 1. Definición Global: Disponible para todos los jobs
+env:
+  NOMBRE_PROYECTO: "Sistema-Alpha"
+  VERSION: "2.0.4"
+
+jobs:
+  imprimir-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ver variable en Job 1
+        run: echo "El proyecto actual es ${{ env.NOMBRE_PROYECTO }}"
+
+  notificar-estado:
+    runs-on: ubuntu-latest
+    needs: imprimir-info # Este job espera a que el primero termine
+    steps:
+      - name: Ver variable en Job 2
+        run: |
+          echo "Notificando despliegue de ${{ env.NOMBRE_PROYECTO }}"
+          echo "Versión detectada: $VERSION"
