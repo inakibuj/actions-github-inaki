@@ -15,5 +15,5 @@ jobs:
         run: |
           # Usamos python para validar el formato del archivo
           # Esto fallará si el archivo data.json no existe o está mal formado
-          python3 -m json.tool data.json
+          python3 -m json.tool .github/workflows/data.json
 
